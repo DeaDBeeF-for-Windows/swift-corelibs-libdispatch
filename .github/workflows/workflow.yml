@@ -30,9 +30,14 @@ jobs:
     - name: Install
       run: cmake --install ${{github.workspace}}\out\build\windows-release
 
-    - name: Upload artifact windows-release-${{ steps.vars.outputs.sha_short }}.zip
+    - name: Clean-up
+      shell: bash
+      run: |
+        ./clean.sh "./out/install/windows-release"
+
+    - name: Upload artifact windows-libdispatch.zip
       if: ${{ !env.ACT }}
       uses: actions/upload-artifact@v1
       with:
-        name: windows-release-${{ steps.vars.outputs.sha_short }}
-        path: ./out
+        name: windows-libdispatch
+        path: ./out/install/windows-release/
