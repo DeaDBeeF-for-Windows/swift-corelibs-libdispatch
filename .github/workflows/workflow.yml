@@ -1,11 +1,10 @@
 name: libdispatch Windows clang
+
 on: [push]
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
-  C_COMPILER: clang
-  CPP_COMPILER: clang++
 
 jobs:
   build:
@@ -16,18 +15,18 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - uses: ilammy/msvc-dev-cmd@v1.4.1
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
-      # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_CXX_COMPILER=${{env.CPP_COMPILER}} -DCMAKE_C_COMPILER=${{env.C_COMPILER}}
+      run: cmake --preset windows-release
 
     - name: Build
       # Build your program with the given configuration
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+      run: cmake --build ${{github.workspace}}\out\build\windows-release
 
     - name: Install
-      run: cmake --install ${{github.workspace}}/out --config ${{env.BUILD_TYPE}}
+      run: cmake --install ${{github.workspace}}\out\build\windows-release
 
     - name: Upload artifact windows-release-${{ steps.vars.outputs.sha_short }}.zip
       if: ${{ !env.ACT }}
