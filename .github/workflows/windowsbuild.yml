@@ -1,0 +1,24 @@
+name: Build for Windows
+on: [ push, pull_request ]
+jobs:
+  build_windows:
+    name: CI for Windows
+    runs-on: windows-latest
+    steps:
+    - name: Checkout for Windows
+      uses: actions/checkout@v2
+    - name: Install msys2
+      uses: msys2/setup-msys2@v2
+      with:
+        update: true
+        install: >-
+          mingw-w64-x86_64-clang mingw-w64-x86_64-cmake mingw-w64-x86_64-lld mingw-w64-x86_64-ninja
+    - name: Build for Windows
+      shell: msys2 {0}
+      run: ./build.sh
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ddb-xdispatch-win-latest
+        path: out
+
