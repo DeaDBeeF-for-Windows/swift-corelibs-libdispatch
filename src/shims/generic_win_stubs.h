@@ -25,9 +25,11 @@ typedef __typeof__(_Generic((__SIZE_TYPE__)0,                                  \
 			    unsigned short : (short)0,                         \
 			    unsigned char : (signed char)0)) ssize_t;
 
+#ifndef __MINGW64__
 #define S_ISDIR(mode)  (((mode) & S_IFMT) == S_IFDIR)
 #define S_ISFIFO(mode) ((mode) & _S_IFIFO)
 #define S_ISREG(mode)  ((mode) & _S_IFREG)
+#endif
 #define S_ISSOCK(mode) 0
 
 #define O_NONBLOCK 04000
